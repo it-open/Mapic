@@ -1,14 +1,12 @@
 
+import at.itopen.gps.NMEA;
+import at.itopen.webcam.ImageSource;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import net.sf.marineapi.example.FileExample;
-import net.sf.marineapi.nmea.event.SentenceEvent;
-import net.sf.marineapi.nmea.event.SentenceListener;
-import net.sf.marineapi.nmea.io.SentenceReader;
-import net.sf.marineapi.nmea.sentence.GGASentence;
-import net.sf.marineapi.nmea.sentence.SentenceId;
+import javax.imageio.ImageIO;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,67 +17,9 @@ import net.sf.marineapi.nmea.sentence.SentenceId;
  *
  * @author roland
  */
-public class Main implements SentenceListener {
+public class Main {
 
-    private SentenceReader reader;
-
-    /**
-     * Creates a new instance of FileExample
-     *
-     * @param f File from which to read Checksum data
-     */
-    public void FileExample(File file) throws IOException {
-
-        // create sentence reader and provide input stream
-        InputStream stream = new FileInputStream(file);
-        reader = new SentenceReader(stream);
-
-        // register self as a listener for GGA sentences
-        reader.addSentenceListener(this, SentenceId.GGA);
-        reader.start();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see net.sf.marineapi.nmea.event.SentenceListener#readingPaused()
-     */
-    public void readingPaused() {
-        System.out.println("-- Paused --");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see net.sf.marineapi.nmea.event.SentenceListener#readingStarted()
-     */
-    public void readingStarted() {
-        System.out.println("-- Started --");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see net.sf.marineapi.nmea.event.SentenceListener#readingStopped()
-     */
-    public void readingStopped() {
-        System.out.println("-- Stopped --");
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see
-     * net.sf.marineapi.nmea.event.SentenceListener#sentenceRead(net.sf.marineapi
-     * .nmea.event.SentenceEvent)
-     */
-    public void sentenceRead(SentenceEvent event) {
-
-        // Safe to cast as we are registered only for GGA updates. Could
-        // also cast to PositionSentence if interested only in position data.
-        // When receiving all sentences without filtering, you should check the
-        // sentence type before casting (e.g. with Sentence.getSentenceId()).
-        GGASentence s = (GGASentence) event.getSentence();
-
-        // Do something with sentence data..
-        System.out.println(s.getPosition());
-    }
+    public static NMEA nmea = new NMEA();
 
     /**
      * Main method takes one command-line argument, the name of the file to
@@ -87,19 +27,17 @@ public class Main implements SentenceListener {
      *
      * @param args Command-line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        if (args.length != 1) {
-            System.out.println("Example usage:\njava FileExample nmea.log");
-            System.exit(1);
-        }
+        ImageSource is = new ImageSource();
+        ImageIO.write(is.getImage(), "jpg", new File("test.jpg"));
 
-        try {
-            new FileExample(new File(args[0]));
-            System.out.println("Running, press CTRL-C to stop..");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
+        File f = new File("/dev/ttyACM0");
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        while (true) {
+            String line = br.readLine();
+            System.out.println("Line:" + line);
+            nmea.parse(line);
         }
     }
 
