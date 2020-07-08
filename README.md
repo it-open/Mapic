@@ -11,4 +11,5 @@ Support ImageCapturing from any Webcam via OpenCV. Multiple Webcams for differen
 ## Mapillary
 Uploading Sequences and Images should work via API. This part is still not finalized because the Mapillary API does not support uploading. Then the Mapillary Commandlinetools have to be used.
 
-
+#Work in Progress
+This Project is currently in heavy Development. Started 7.6.2020. If anybody wants to contribute just contact me. 
