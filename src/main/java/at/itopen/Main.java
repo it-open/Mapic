@@ -1,9 +1,7 @@
 
-import at.itopen.gps.NMEA;
-import at.itopen.webcam.ImageSource;
-import java.io.BufferedReader;
+import at.itopen.imaging.ImageSource;
+import at.itopen.imaging.Imaging;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -19,8 +17,6 @@ import javax.imageio.ImageIO;
  */
 public class Main {
 
-    public static NMEA nmea = new NMEA();
-
     /**
      * Main method takes one command-line argument, the name of the file to
      * read.
@@ -28,16 +24,14 @@ public class Main {
      * @param args Command-line arguments
      */
     public static void main(String[] args) throws IOException {
-
-        ImageSource is = new ImageSource();
-        ImageIO.write(is.getImage(), "jpg", new File("test.jpg"));
-
-        File f = new File("/dev/ttyACM0");
-        BufferedReader br = new BufferedReader(new FileReader(f));
-        while (true) {
-            String line = br.readLine();
-            System.out.println("Line:" + line);
-            nmea.parse(line);
+        System.out.println("Start");
+        Imaging.init();
+        int i = 0;
+        for (ImageSource imageSource : Imaging.getAvailableSources()) {
+            System.out.println(imageSource.getName() + " - " + imageSource.getId() + " : " + imageSource.getResolution().width + "x" + imageSource.getResolution().height);
+            imageSource.setEnabled(true);
+            ImageIO.write(imageSource.getImage(), "jpg", new File("image" + (i++) + ".jpg"));
+            imageSource.setEnabled(false);
         }
     }
 
