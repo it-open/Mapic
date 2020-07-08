@@ -12,7 +12,11 @@ import static at.itopen.gps.NMEA.Longitude2Decimal;
  *
  * @author roland
  */
-public class GPGGA implements SentenceParser {
+public class GPGGA extends SentenceParser {
+
+    public GPGGA(NMEA nmea) {
+        super(nmea);
+    }
 
     public boolean parse(String[] tokens, GPSPosition position) {
         if (tokens[1].isEmpty()) {
@@ -23,6 +27,7 @@ public class GPGGA implements SentenceParser {
         position.lon = Longitude2Decimal(tokens[4], tokens[5]);
         position.quality = Integer.parseInt(tokens[6]);
         position.altitude = Float.parseFloat(tokens[9]);
+        getNmea().callPositionUpdated(position);
         return true;
     }
 

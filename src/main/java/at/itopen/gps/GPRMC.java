@@ -12,7 +12,11 @@ import static at.itopen.gps.NMEA.Longitude2Decimal;
  *
  * @author roland
  */
-public class GPRMC implements SentenceParser {
+public class GPRMC extends SentenceParser {
+
+    public GPRMC(NMEA nmea) {
+        super(nmea);
+    }
 
     public boolean parse(String[] tokens, GPSPosition position) {
         if (tokens[1].isEmpty()) {
@@ -23,6 +27,7 @@ public class GPRMC implements SentenceParser {
         position.lon = Longitude2Decimal(tokens[5], tokens[6]);
         position.velocity = Float.parseFloat(tokens[7]);
         position.dir = Float.parseFloat(tokens[8]);
+        getNmea().callPositionUpdated(position);
         return true;
     }
 

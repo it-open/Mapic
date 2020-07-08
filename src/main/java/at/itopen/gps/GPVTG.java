@@ -9,7 +9,11 @@ package at.itopen.gps;
  *
  * @author roland
  */
-public class GPVTG implements SentenceParser {
+public class GPVTG extends SentenceParser {
+
+    public GPVTG(NMEA nmea) {
+        super(nmea);
+    }
 
     public boolean parse(String[] tokens, GPSPosition position) {
         if (tokens[3].isEmpty()) {

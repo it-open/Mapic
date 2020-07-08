@@ -12,7 +12,11 @@ import java.util.List;
  *
  * @author roland
  */
-public class GPGSA implements SentenceParser {
+public class GPGSA extends SentenceParser {
+
+    public GPGSA(NMEA nmea) {
+        super(nmea);
+    }
 
     public boolean parse(String[] tokens, GPSPosition position) {
         if (tokens[2].isEmpty()) {

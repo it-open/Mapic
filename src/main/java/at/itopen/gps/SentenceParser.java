@@ -9,8 +9,18 @@ package at.itopen.gps;
  *
  * @author roland
  */
-public interface SentenceParser {
+public abstract class SentenceParser {
 
-    public boolean parse(String[] tokens, GPSPosition position);
+    private NMEA nmea;
+
+    public SentenceParser(NMEA nmea) {
+        this.nmea = nmea;
+    }
+
+    public NMEA getNmea() {
+        return nmea;
+    }
+
+    public abstract boolean parse(String[] tokens, GPSPosition position);
 
 }

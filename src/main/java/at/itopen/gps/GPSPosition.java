@@ -25,6 +25,7 @@ public class GPSPosition {
     public FIX fix3d = FIX.FIX_NO;
     public List<String> usedSatellites = new ArrayList<>();
     public int quality = 0;
+    public int seenSatellites = 0;
     public float dir = 0.0f;
     public float altitude = 0.0f;
     public float velocity = 0.0f;

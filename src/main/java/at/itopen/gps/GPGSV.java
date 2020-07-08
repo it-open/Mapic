@@ -5,14 +5,11 @@
  */
 package at.itopen.gps;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author roland
  */
-public class GPGSV implements SentenceParser {
+public class GPGSV extends SentenceParser {
 
     /* $GPGSV,2,1,08,01,40,083,46,02,17,308,41,12,07,344,39,14,22,228,45*75
 
@@ -32,32 +29,32 @@ Where:
 // Unknown length TODO
     byte[] satcount = new byte[2];
 
-    public GPGSV() {
+    public GPGSV(NMEA nmea) {
+        super(nmea);
         satcount[0] = 0;
         satcount[1] = 0;
     }
 
     public boolean parse(String[] tokens, GPSPosition position) {
-        if (tokens[2].isEmpty()) {
+        if (tokens[1].isEmpty()) {
             return false;
         }
-        if (tokens[2] == "1") {
-            position.fix3d = GPSPosition.FIX.FIX_NO;
-        }
-        if (tokens[2] == "2") {
-            position.fix3d = GPSPosition.FIX.FIX_2D;
-        }
-        if (tokens[2] == "3") {
-            position.fix3d = GPSPosition.FIX.FIX_3D;
-        }
-
-        List<String> sat = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            if (!tokens[3 + i].isEmpty()) {
-                sat.add(tokens[3 + i]);
+        int sections = Integer.parseInt(tokens[1]);
+        if (satcount.length != sections) {
+            satcount = new byte[sections];
+            for (int i = 0; i < satcount.length; i++) {
+                satcount[i] = 0;
             }
         }
-        position.usedSatellites = sat;
+        int section = Integer.parseInt(tokens[2]);
+        byte sats = (byte) Integer.parseInt(tokens[3]);
+        satcount[section] = sats;
+
+        int anz = 0;
+        for (int i = 0; i < satcount.length; i++) {
+            anz += satcount[i];
+        }
+        position.seenSatellites = anz;
 
         return true;
     }

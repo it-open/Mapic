@@ -9,7 +9,11 @@ package at.itopen.gps;
  *
  * @author roland
  */
-public class GPRMZ implements SentenceParser {
+public class GPRMZ extends SentenceParser {
+
+    public GPRMZ(NMEA nmea) {
+        super(nmea);
+    }
 
     public boolean parse(String[] tokens, GPSPosition position) {
         position.altitude = Float.parseFloat(tokens[1]);
