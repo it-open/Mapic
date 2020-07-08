@@ -36,7 +36,7 @@ public class GPhoto2Source extends ImageSource {
 
             Camera c = new Camera();
             c.setPortInfo(cl.getPortInfo(i));
-            Imaging.addAvaliableImageSource(new GPhoto2Source(c, cl.getModel(i)));
+            ImagingCapture.addAvaliableImageSource(new GPhoto2Source(c, cl.getModel(i)));
         }
 
         CameraUtils.closeQuietly(cl);
@@ -53,7 +53,7 @@ public class GPhoto2Source extends ImageSource {
         camera.initialize();
         try {
             File tmp = File.createTempFile("img", ".jpg");
-            camera.captureImage().save(tmp.getAbsolutePath() + File.separator + tmp.getName());
+            camera.captureImage().save(tmp.getAbsolutePath());
             Image img = ImageIO.read(tmp);
             dimension = new Dimension(img.getWidth(null), img.getHeight(null));
             tmp.delete();

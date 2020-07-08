@@ -23,7 +23,7 @@ public class WebCamSource extends ImageSource {
             public void webcamFound(WebcamDiscoveryEvent webcamDiscoveryEvent) {
                 Webcam webcam = webcamDiscoveryEvent.getWebcam();
                 WebCamSource webCamSource = new WebCamSource(webcam);
-                Imaging.addAvaliableImageSource(webCamSource);
+                ImagingCapture.addAvaliableImageSource(webCamSource);
 
             }
 
