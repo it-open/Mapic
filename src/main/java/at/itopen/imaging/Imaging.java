@@ -18,6 +18,7 @@ public class Imaging {
 
     public static void init() {
         WebCamSource.populate();
+        GPhoto2Source.populate();
     }
 
     private static List<ImageSource> availableSources = new ArrayList<>();

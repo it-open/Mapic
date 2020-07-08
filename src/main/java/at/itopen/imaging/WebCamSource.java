@@ -69,11 +69,6 @@ public class WebCamSource extends ImageSource {
     }
 
     @Override
-    public String getId() {
-        return webcam.getDevice().getName();
-    }
-
-    @Override
     public void setEnabled(boolean enable) {
 
         if (enable) {

@@ -1,9 +1,7 @@
 
 import at.itopen.imaging.ImageSource;
 import at.itopen.imaging.Imaging;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 
 /*
@@ -28,10 +26,7 @@ public class Main {
         Imaging.init();
         int i = 0;
         for (ImageSource imageSource : Imaging.getAvailableSources()) {
-            System.out.println(imageSource.getName() + " - " + imageSource.getId() + " : " + imageSource.getResolution().width + "x" + imageSource.getResolution().height);
-            imageSource.setEnabled(true);
-            ImageIO.write(imageSource.getImage(), "jpg", new File("image" + (i++) + ".jpg"));
-            imageSource.setEnabled(false);
+            System.out.println(imageSource.getName() + " : " + imageSource.getResolution().width + "x" + imageSource.getResolution().height);
         }
     }
 

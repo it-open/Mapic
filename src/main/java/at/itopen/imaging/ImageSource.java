@@ -40,8 +40,6 @@ public abstract class ImageSource {
 
     public abstract Dimension getResolution();
 
-    public abstract String getId();
-
     public abstract void setEnabled(boolean enable);
 
 }
