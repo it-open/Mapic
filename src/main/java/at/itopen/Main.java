@@ -1,6 +1,6 @@
 
 import at.itopen.imaging.ImageSource;
-import at.itopen.imaging.Imaging;
+import at.itopen.imaging.ImagingCapture;
 import java.io.IOException;
 
 
@@ -23,9 +23,9 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Start");
-        Imaging.init();
-        int i = 0;
-        for (ImageSource imageSource : Imaging.getAvailableSources()) {
+        ImagingCapture.init();
+
+        for (ImageSource imageSource : ImagingCapture.getAvailableSources()) {
             System.out.println(imageSource.getName() + " : " + imageSource.getResolution().width + "x" + imageSource.getResolution().height);
         }
     }
